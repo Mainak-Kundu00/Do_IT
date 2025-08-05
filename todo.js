@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
         //saving task to localstorage
         saveTask();
-        renderTask();
+        
         //reseting the input field after submiting input
         document.getElementById("todo-input").value = "";
     }
