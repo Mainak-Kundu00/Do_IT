@@ -20,16 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
         //creating an todo item 
         createTask(input);
     });
-//////// working ///////////
-   const button = task_container.querySelector("button");
-   console.log(button.parentElement);
-   
-    // .addEventListener("click",function (e){
-    //     // e.stopPropagation();
-    //      const div = deleteButton.parentElement;
-    //      console.log(div);
-         
-    // });
     
     function createTask(input){
         if(input === "") return;
@@ -54,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
             div.innerHTML = '<div class="text-center py-4 text-gray-500">No tasks yet. Add one above!</div>';
             
             task_container.appendChild(div);
+            count.innerHTML = `0 items`;
         }else{
             tasks.forEach((item) => renderTask(item));
         }
@@ -71,9 +62,20 @@ document.addEventListener("DOMContentLoaded", () => {
         div.setAttribute('item_id', item.id);
         div.innerHTML = `
             <span>${item.text}</span>
-            <button id="delete_task">delete</button>
+            <button>delete</button>
             `;
         task_container.appendChild(div);
         count.innerHTML = `${tasks.length} items` ;
+
+        div.addEventListener('click', (e) => {
+            //if clicked on the button
+            if(e.target.tagName === "BUTTON"){
+                //returns tasks except the one is being clicked
+                tasks = tasks.filter(task => task.id !== item.id);
+                //removing the cliked task
+                div.remove();
+                saveTask();
+            }
+        })
     }
 });
