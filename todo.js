@@ -20,9 +20,25 @@ document.addEventListener("DOMContentLoaded", () => {
         //creating an todo item 
         createTask(input);
     });
+
+    task_container.addEventListener("click", (e) => {
+        if(e.target.matches("INPUT[TYPE=CHECKBOX]")){
+            // console.log(e.target.parentElement);
+
+        }
+        if(e.target.checked) {
+            // console.log("hi");
+        }
+        
+        
+    });
     
     function createTask(input){
-        if(input === "") return;
+        //if input is empty
+        if(input === "") {
+            alert("Add a task");
+            return;
+        }
         
         const item = {
             id: Date.now(),
@@ -61,21 +77,26 @@ document.addEventListener("DOMContentLoaded", () => {
         const div = document.createElement("div");
         div.setAttribute('item_id', item.id);
         div.innerHTML = `
+            <input type="checkbox" name="completed">
             <span>${item.text}</span>
-            <button>delete</button>
+            <button class="float-right text-red-500"> 
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+            </button>
             `;
         task_container.appendChild(div);
         count.innerHTML = `${tasks.length} items` ;
 
         div.addEventListener('click', (e) => {
             //if clicked on the button
-            if(e.target.tagName === "BUTTON"){
+            if(e.target.closest("button")){
                 //returns tasks except the one is being clicked
                 tasks = tasks.filter(task => task.id !== item.id);
                 //removing the cliked task
                 div.remove();
                 saveTask();
-            }
+            }            
         })
     }
 });
