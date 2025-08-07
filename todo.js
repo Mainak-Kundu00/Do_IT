@@ -26,18 +26,32 @@ document.addEventListener("DOMContentLoaded", () => {
         const div = e.target.parentElement;
         const divId = e.target.parentElement.getAttribute("item_id");
         if(e.target.matches("INPUT[TYPE=CHECKBOX]")){
-            // console.log(e.target.parentElement.id);
+            //  console.log(typeof divId);
 
+        }
+
+        const matchedTask = tasks.find(t => t.id == divId);
+        if (e.target.checked) {
+            if (matchedTask) {
+                matchedTask.completed = true;
+            }
+        } else {
+            matchedTask.completed = false;
         }
         // task is checked by the user
-        if(e.target.checked) {
-
-        }
-        else{
-            console.log("not hi");
-            
-        }
-        
+        // if(e.target.checked) {
+        //    tasks.forEach((t) => {
+        //     const taskId = t.id;
+        //         if(divId == taskId){
+        //             t.completed.toggle("true");                    
+        //         }
+        //    });
+        // }
+        // else{
+        // }
+            // div.classList.add("line-through", "text-gray-400","opacity-50");
+            // div.classList.remove("line-through", "text-gray-400","opacity-50");       
+        // console.log(tasks[0].text);
         
     });
     
