@@ -1,4 +1,130 @@
 document.addEventListener("DOMContentLoaded", () => {
     // console.log("content loaded");
+    const form = document.getElementById("todo-form");
+    const task_container = document.getElementById("todo-list");
+    const clear = document.getElementById("clear-completed");
+    const count = document.getElementById("total-count");
+
+    //if localstorage have any item then it loades into tasks or loads an empty array
+    let tasks = JSON.parse(localStorage.getItem('task')) || [];
+
+    //loading task in the web
+    loadTask();
+
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        
+        //getting the input value
+        const input = document.getElementById("todo-input").value.trim();
+        
+        //creating an todo item 
+        createTask(input);
+    });
+
+    task_container.addEventListener("click", (e) => {
+        //clicked on the checkbox
+        const div = e.target.parentElement;
+        const divId = e.target.parentElement.getAttribute("item_id");
+        if(e.target.matches("INPUT[TYPE=CHECKBOX]")){
+            //  console.log(typeof divId);
+
+        }
+
+        const matchedTask = tasks.find(t => t.id == divId);
+        if (e.target.checked) {
+            if (matchedTask) {
+                matchedTask.completed = true;
+            }
+        } else {
+            matchedTask.completed = false;
+        }
+        // task is checked by the user
+        // if(e.target.checked) {
+        //    tasks.forEach((t) => {
+        //     const taskId = t.id;
+        //         if(divId == taskId){
+        //             t.completed.toggle("true");                    
+        //         }
+        //    });
+        // }
+        // else{
+        // }
+            // div.classList.add("line-through", "text-gray-400","opacity-50");
+            // div.classList.remove("line-through", "text-gray-400","opacity-50");       
+        // console.log(tasks[0].text);
+        
+    });
     
+    function createTask(input){
+        //if input is empty
+        if(input === "") {
+            alert("Add a task");
+            return;
+        }
+        
+        const item = {
+            id: Date.now(),
+            text: input,
+            completed: false
+        }
+        tasks.push(item);
+        
+        //saving task to localstorage
+        saveTask();
+        //reseting the input field after submiting input
+        document.getElementById("todo-input").value = "";
+    }
+
+    function loadTask(){ 
+         if(tasks.length === 0){
+            const div = document.createElement("div");
+
+            div.innerHTML = '<div class="text-center py-4 text-gray-500">No tasks yet. Add one above!</div>';
+            
+            task_container.appendChild(div);
+            count.innerHTML = `0 items`;
+        }else{
+            tasks.forEach((item) => renderTask(item));
+        }
+    }
+     
+
+    function saveTask(){
+        localStorage.setItem('task',JSON.stringify(tasks));
+        task_container.innerHTML = "";
+        loadTask();
+    }
+
+    function renderTask(item){
+        //creating an item
+        const div = document.createElement("div");
+        //creating the tailwind classes
+        const taskClasses = "bg-white shadow-sm rounded-md px-4 py-2 mb-2 border border-gray-200 hover:bg-gray-300 transition-all duration-200";
+        
+        div.classList.add(...taskClasses.split(" "));
+        div.setAttribute('item_id', item.id);
+        div.innerHTML = `
+            <input type="checkbox" name="completed">
+            <span class="ml-1.5">${item.text}</span>
+            <button class="float-right text-red-500 hover:text-red-700"> 
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            `;
+        //adding item to the task container and updating the counter
+        task_container.appendChild(div);
+        count.innerHTML = `${tasks.length} items` ;
+
+        div.addEventListener('click', (e) => {
+            //if clicked on the button
+            if(e.target.closest("button")){
+                //returns tasks except the one is being clicked
+                tasks = tasks.filter(task => task.id !== item.id);
+                //removing the cliked task
+                div.remove();
+                saveTask();
+            }            
+        })
+    }
 });
