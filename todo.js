@@ -21,39 +21,41 @@ document.addEventListener("DOMContentLoaded", () => {
         createTask(input);
     });
 
-    task_container.addEventListener("click", (e) => {
-        //clicked on the checkbox
-        const div = e.target.parentElement;
-        const divId = e.target.parentElement.getAttribute("item_id");
-        if(e.target.matches("INPUT[TYPE=CHECKBOX]")){
-            //  console.log(typeof divId);
+    // task_container.addEventListener("click", (e) => {
+    //     //clicked on the checkbox
+    //     const divId = e.target.parentElement.getAttribute("item_id");
+    //     // if(e.target.matches("INPUT[TYPE=CHECKBOX]")){
+    //     //     //  console.log(typeof divId);
 
-        }
+    //     // }
 
-        const matchedTask = tasks.find(t => t.id == divId);
-        if (e.target.checked) {
-            if (matchedTask) {
-                matchedTask.completed = true;
-            }
-        } else {
-            matchedTask.completed = false;
-        }
-        // task is checked by the user
-        // if(e.target.checked) {
-        //    tasks.forEach((t) => {
-        //     const taskId = t.id;
-        //         if(divId == taskId){
-        //             t.completed.toggle("true");                    
-        //         }
-        //    });
-        // }
-        // else{
-        // }
-            // div.classList.add("line-through", "text-gray-400","opacity-50");
-            // div.classList.remove("line-through", "text-gray-400","opacity-50");       
-        // console.log(tasks[0].text);
+    //     // const matchedTask = tasks.find(t => t.id == divId);
+    //     // if (e.target.checked) {
+    //     //     if (matchedTask) {
+    //     //         matchedTask.completed = true;
+    //     //     }
+    //     // } else {
+    //     //     matchedTask.completed = false;
+    //     // }
+    //     // task is checked by the user
+    //     if(e.target.checked) {
+    //        tasks.forEach((t) => {
+    //         const taskId = t.id;
+    //             if(divId == taskId){
+    //                 console.log(t);
+    //                 t.completed = true;
+    //                 console.log(t);
+    //             }
+
+    //        });
+    //     }
+    //     // else{
+    //     // }
+    //         // div.classList.add("line-through", "text-gray-400","opacity-50");
+    //         // div.classList.remove("line-through", "text-gray-400","opacity-50");       
+    //     // console.log(tasks[0].text);
         
-    });
+    // });
     
     function createTask(input){
         //if input is empty
@@ -116,15 +118,65 @@ document.addEventListener("DOMContentLoaded", () => {
         task_container.appendChild(div);
         count.innerHTML = `${tasks.length} items` ;
 
+        //removing an task
         div.addEventListener('click', (e) => {
             //if clicked on the button
             if(e.target.closest("button")){
                 //returns tasks except the one is being clicked
                 tasks = tasks.filter(task => task.id !== item.id);
-                //removing the cliked task
+                //removing the clicked task
                 div.remove();
                 saveTask();
             }            
-        })
+        });
+        
+        //working with checkbox
+        div.addEventListener("click", (e) => {
+            const checkbox = e.currentTarget.querySelector('input[type="checkbox"]');
+            const divId = e.currentTarget.getAttribute("item_id");
+
+            //browser handles checkbox clicking ensuring there is no double toggle
+            if(e.target.matches('input[type="checkbox"]')) {
+                addClass(div);
+                tasks.forEach((t) => {
+                if(t.id == divId){
+                    t.completed = !t.completed;
+                    return t;
+                }
+            });
+                console.log(tasks);
+                console.log(divId);
+                return;
+            }
+
+            //clicking the div changes the checkbox status
+            checkbox.checked = !checkbox.checked;
+            addClass(div);
+
+            tasks.forEach((t) => {
+                if(t.id == divId){
+                    t.completed = !t.completed;
+                }
+            });
+
+            // console.log(matchedTask);
+            console.log(tasks);
+            
+
+            // checkbox.addEventListener("click", (e) => {
+            //     console.log(e.target);
+            // });
+            console.log(divId);
+            
+        });
+    }
+
+    /////  tasks completed status succesfully added but need to focus on class addition /////
+    function addClass(div){
+        if(tasks.completed){
+            div.classList.add("line-through", "text-gray-400","opacity-50");    
+        }else{
+            div.classList.remove("line-through", "text-gray-400","opacity-50");
+        }
     }
 });
