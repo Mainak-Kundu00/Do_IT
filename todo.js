@@ -21,6 +21,18 @@ document.addEventListener("DOMContentLoaded", () => {
         createTask(input);
     });
     
+    //clearing all completed item in one go
+    clear.addEventListener("click", () => {
+       tasks.forEach(item => {
+        if (item.completed) {
+            const div = document.querySelector(`[item_id="${item.id}"]`);
+            if (div) div.remove(); // removes from DOM
+        }
+        });
+        tasks = tasks.filter(item => !item.completed);
+        saveTask(); 
+    });
+
     function createTask(input){
         //if input is empty
         if(input === "") {
@@ -54,7 +66,6 @@ document.addEventListener("DOMContentLoaded", () => {
             tasks.forEach((item) => renderTask(item));
         }
     }
-     
 
     function saveTask(){
         localStorage.setItem('task',JSON.stringify(tasks));  
@@ -67,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
         //creating the tailwind classes
         const taskClasses = "bg-white shadow-sm rounded-md px-4 py-2 mb-2 border border-gray-200 hover:bg-gray-300 transition-all duration-200";
         
+                
         div.classList.add(...taskClasses.split(" "));
         div.setAttribute('item_id', item.id);
         div.innerHTML = `
@@ -78,19 +90,19 @@ document.addEventListener("DOMContentLoaded", () => {
         </svg>
         </button>
         `;
-        //adding item to the task container and updating the counter
-        task_container.appendChild(div);
-        count.innerHTML = `${tasks.length} items` ;
-        
-        //removing an task
-        deleteTask(div,item);
-        
         // if item available and completed then checks the checkbox on render
         if (item.completed) {
             div.classList.add("line-through", "text-gray-400", "opacity-50");
             const checkbox = div.querySelector('input[type="checkbox"]');
             if (checkbox) checkbox.checked = true;
         }
+        //adding item to the task container and updating the counter
+        task_container.appendChild(div);
+        count.innerHTML = `${tasks.length} items` ;
+        
+        //removing an task
+        deleteTask(div,item);
+
         
         //working with checkbox
         div.addEventListener("click", (e) => {
@@ -121,7 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
             div.classList.remove("line-through", "text-gray-400","opacity-50");
         }
         //save the task
-        localStorage.setItem('task',JSON.stringify(tasks));
+        saveTask();
     }
 
     function deleteTask(div,item){
