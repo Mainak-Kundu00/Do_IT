@@ -20,42 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
         //creating an todo item 
         createTask(input);
     });
-
-    // task_container.addEventListener("click", (e) => {
-    //     //clicked on the checkbox
-    //     const divId = e.target.parentElement.getAttribute("item_id");
-    //     // if(e.target.matches("INPUT[TYPE=CHECKBOX]")){
-    //     //     //  console.log(typeof divId);
-
-    //     // }
-
-    //     // const matchedTask = tasks.find(t => t.id == divId);
-    //     // if (e.target.checked) {
-    //     //     if (matchedTask) {
-    //     //         matchedTask.completed = true;
-    //     //     }
-    //     // } else {
-    //     //     matchedTask.completed = false;
-    //     // }
-    //     // task is checked by the user
-    //     if(e.target.checked) {
-    //        tasks.forEach((t) => {
-    //         const taskId = t.id;
-    //             if(divId == taskId){
-    //                 console.log(t);
-    //                 t.completed = true;
-    //                 console.log(t);
-    //             }
-
-    //        });
-    //     }
-    //     // else{
-    //     // }
-    //         // div.classList.add("line-through", "text-gray-400","opacity-50");
-    //         // div.classList.remove("line-through", "text-gray-400","opacity-50");       
-    //     // console.log(tasks[0].text);
-        
-    // });
     
     function createTask(input){
         //if input is empty
@@ -78,6 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function loadTask(){ 
+        task_container.innerHTML = "";
          if(tasks.length === 0){
             const div = document.createElement("div");
 
@@ -92,8 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
      
 
     function saveTask(){
-        localStorage.setItem('task',JSON.stringify(tasks));
-        task_container.innerHTML = "";
+        localStorage.setItem('task',JSON.stringify(tasks));  
         loadTask();
     }
 
@@ -106,19 +70,61 @@ document.addEventListener("DOMContentLoaded", () => {
         div.classList.add(...taskClasses.split(" "));
         div.setAttribute('item_id', item.id);
         div.innerHTML = `
-            <input type="checkbox" name="completed">
-            <span class="ml-1.5">${item.text}</span>
-            <button class="float-right text-red-500 hover:text-red-700"> 
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                </svg>
-            </button>
-            `;
+        <input type="checkbox" name="completed">
+        <span class="ml-1.5">${item.text}</span>
+        <button class="float-right text-red-500 hover:text-red-700"> 
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+        </svg>
+        </button>
+        `;
         //adding item to the task container and updating the counter
         task_container.appendChild(div);
         count.innerHTML = `${tasks.length} items` ;
-
+        
         //removing an task
+        deleteTask(div,item);
+        
+        // if item available and completed then checks the checkbox on render
+        if (item.completed) {
+            div.classList.add("line-through", "text-gray-400", "opacity-50");
+            const checkbox = div.querySelector('input[type="checkbox"]');
+            if (checkbox) checkbox.checked = true;
+        }
+        
+        //working with checkbox
+        div.addEventListener("click", (e) => {
+            const checkbox = e.currentTarget.querySelector('input[type="checkbox"]');
+            const divId = e.currentTarget.getAttribute("item_id");
+
+            //browser handles checkbox clicking ensuring there is no double toggle
+            if(e.target.matches('input[type="checkbox"]')) {            
+                addClass(div,divId);
+                return;
+            }
+        
+            //clicking the div changes the checkbox status
+            checkbox.checked = !checkbox.checked;
+            addClass(div,divId);
+        });
+    }
+
+    function addClass(div,divId){
+        const completedTask = tasks.find((t) => t.id == divId);
+
+        if(!completedTask) return;
+        completedTask.completed = !completedTask.completed;
+        
+        if(completedTask.completed){
+            div.classList.add("line-through", "text-gray-400","opacity-50");    
+        }else{
+            div.classList.remove("line-through", "text-gray-400","opacity-50");
+        }
+        //save the task
+        localStorage.setItem('task',JSON.stringify(tasks));
+    }
+
+    function deleteTask(div,item){
         div.addEventListener('click', (e) => {
             //if clicked on the button
             if(e.target.closest("button")){
@@ -129,54 +135,5 @@ document.addEventListener("DOMContentLoaded", () => {
                 saveTask();
             }            
         });
-        
-        //working with checkbox
-        div.addEventListener("click", (e) => {
-            const checkbox = e.currentTarget.querySelector('input[type="checkbox"]');
-            const divId = e.currentTarget.getAttribute("item_id");
-
-            //browser handles checkbox clicking ensuring there is no double toggle
-            if(e.target.matches('input[type="checkbox"]')) {
-                addClass(div);
-                tasks.forEach((t) => {
-                if(t.id == divId){
-                    t.completed = !t.completed;
-                    return t;
-                }
-            });
-                console.log(tasks);
-                console.log(divId);
-                return;
-            }
-
-            //clicking the div changes the checkbox status
-            checkbox.checked = !checkbox.checked;
-            addClass(div);
-
-            tasks.forEach((t) => {
-                if(t.id == divId){
-                    t.completed = !t.completed;
-                }
-            });
-
-            // console.log(matchedTask);
-            console.log(tasks);
-            
-
-            // checkbox.addEventListener("click", (e) => {
-            //     console.log(e.target);
-            // });
-            console.log(divId);
-            
-        });
-    }
-
-    /////  tasks completed status succesfully added but need to focus on class addition /////
-    function addClass(div){
-        if(tasks.completed){
-            div.classList.add("line-through", "text-gray-400","opacity-50");    
-        }else{
-            div.classList.remove("line-through", "text-gray-400","opacity-50");
-        }
     }
 });
