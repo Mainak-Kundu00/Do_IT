@@ -1,0 +1,9 @@
+# Node modules
+node_modules/
+
+# Tailwind source file 
+style.css
+
+# Build tools
+package-lock.json
+package.json

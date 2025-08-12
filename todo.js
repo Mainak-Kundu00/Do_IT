@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (div) div.remove(); // removes from DOM
         }
         });
+        //removes from array
         tasks = tasks.filter(item => !item.completed);
         saveTask(); 
     });
