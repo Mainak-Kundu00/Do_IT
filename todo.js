@@ -1,11 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
-
+    
+    const openForm = document.getElementById('open-form');
+    const closeForm = document.getElementById('close-form');
+    const loginForm = document.getElementById('login-modal');
     const openBtn = document.getElementById('open-modal-btn');
     const modal = document.getElementById('modal');
     const backdrop = document.getElementById('modal-backdrop');
     const panel = document.getElementById('modal-panel');
     const closeBtn = document.getElementById('close-modal-btn');
     const form = document.getElementById("todo-form");
+    const input = document.getElementById("todo-input");
     const task_container = document.getElementById("todo-list");
     const clear = document.getElementById("clear-completed");
     const count = document.getElementById("total-count");
@@ -27,58 +31,76 @@ document.addEventListener("DOMContentLoaded", () => {
         closeModal();
     });
     
-    // Modal controls
-    function openModal() {
-    modal.classList.remove('hidden');
-    document.body.classList.add('overflow-hidden');
+    //Login form button
+    openForm.addEventListener('click', () => {
+        const emailInput = document.getElementById('email');
 
-    // Tiny enter animation
-    requestAnimationFrame(() => {
-        panel.classList.remove('scale-95');
-        panel.classList.add('scale-100');
+        loginForm.classList.remove('hidden')
+        document.body.classList.add('overflow-hidden');
+        
+        setTimeout(() => emailInput.focus(), 50);
     });
-
-    // Focus input for quick typing
-    setTimeout(() => input.focus(), 50);
-    }
-
-    function closeModal() {
-    // Tiny exit animation
-    panel.classList.add('scale-95');
-    panel.classList.remove('scale-100');
-
-    setTimeout(() => {
-        modal.classList.add('hidden');
+    closeForm.addEventListener('click', () => {
+        loginForm.classList.add('hidden')
         document.body.classList.remove('overflow-hidden');
-        form.reset();
-    }, 150);
-    }
-
-    // Event wiring
+    });
+    loginForm.addEventListener('click', () => {
+        loginForm.classList.add('hidden')
+        document.body.classList.remove('overflow-hidden');
+    });
+    
+    // Add Task button
     openBtn.addEventListener('click', openModal);
     closeBtn.addEventListener('click', closeModal);
-
-    // Close on backdrop click (outside the form)
     backdrop.addEventListener('click', closeModal);
-
+    
     // Close on Escape key
     document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-        closeModal();
-    }
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            closeModal();
+        }else if(e.key === 'Escape' && !loginForm.classList.contains('hidden')){
+            loginForm.classList.add('hidden');
+        }
     });
     
     //clearing all completed item in one go
     clear.addEventListener("click", () => {
-       tasks.forEach(item => {
-        if (item.completed) {
-            const div = document.querySelector(`[item_id="${item.id}"]`);
-            if (div) div.remove(); // removes from DOM
-        }
+        tasks.forEach(item => {
+            if (item.completed) {
+                const div = document.querySelector(`[item_id="${item.id}"]`);
+                if (div) div.remove(); // removes from DOM
+            }
         });
         tasks = tasks.filter(item => !item.completed);
         saveTask(); 
     });
+
+    // Modal controls
+    function openModal() {
+        modal.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+
+        // Tiny enter animation
+        requestAnimationFrame(() => {
+            panel.classList.remove('scale-95');
+            panel.classList.add('scale-100');
+        });
+
+        // Focus input for quick typing and setTimeout is used to prevent timing missmatch with the modal 
+        setTimeout(() => input.focus(), 50);
+    }
+
+    function closeModal() {
+        // Tiny exit animation
+        panel.classList.add('scale-95');
+        panel.classList.remove('scale-100');
+
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            form.reset();
+        }, 150);
+    }
 
     function createTask(input){
         //if input is empty
