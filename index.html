@@ -23,14 +23,40 @@
       </nav>
     </header>
 
-    <!-- Add Todo Form -->
-    <form id="todo-form" class="mb-6 flex gap-2">
-      <input type="text" id="todo-input" placeholder="Add a new task..." class="flex-1 px-4 py-2 rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500" required/>
-      
-      <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:opacity-85 transition-opacity">
-        Add
-      </button>
-    </form>
+    <!-- Open modal button -->
+        <button id="open-modal-btn" class="block mx-auto min-w-[150px] mb-3 rounded-lg bg-blue-500 px-4 py-2 text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          Add task
+        </button>
+        
+    <!-- Modal root -->
+    <div id="modal" class="fixed inset-0 z-50 hidden grid place-items-center">
+
+      <!-- Backdrop -->
+      <div id="modal-backdrop" class="absolute inset-0 bg-black/50"></div>
+
+      <!-- Modal panel -->
+      <div id="modal-panel" class="relative z-10 w-full max-w-md rounded-xl bg-white p-6 shadow-xl transition-all duration-200  scale-95">
+        <div class="mb-4 flex items-center justify-between">
+
+          <h2 id="modal-title" class="text-lg font-semibold">Add a new task</h2>
+
+          <button id="close-modal-btn" class="rounded-md px-2 py-1 text-gray-500 hover:bg-gray-100 hover:text-gray-700 hover:ring-2 hover:ring-blue-500">
+            ✕
+          </button>
+
+        </div>
+
+        <!-- Add Todo Form -->
+        <form id="todo-form" class="mb-6 flex gap-2">
+          <input type="text" id="todo-input" placeholder="Add a new task..." class="flex-1 px-4 py-2 rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500" required/>
+          
+          <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:opacity-85 transition-opacity">
+            Add
+          </button>
+        </form>
+
+      </div>
+    </div>
 
     <!-- Todo List -->
     <div id="todo-list" class="space-y-2">

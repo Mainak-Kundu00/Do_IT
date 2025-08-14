@@ -1,16 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // console.log("content loaded");
+
+    const openBtn = document.getElementById('open-modal-btn');
+    const modal = document.getElementById('modal');
+    const backdrop = document.getElementById('modal-backdrop');
+    const panel = document.getElementById('modal-panel');
+    const closeBtn = document.getElementById('close-modal-btn');
     const form = document.getElementById("todo-form");
     const task_container = document.getElementById("todo-list");
     const clear = document.getElementById("clear-completed");
     const count = document.getElementById("total-count");
-
+    
     //if localstorage have any item then it loades into tasks or loads an empty array
     let tasks = JSON.parse(localStorage.getItem('task')) || [];
-
+    
     //loading task in the web
     loadTask();
-
+    
     form.addEventListener("submit", (e) => {
         e.preventDefault();
         
@@ -19,6 +24,48 @@ document.addEventListener("DOMContentLoaded", () => {
         
         //creating an todo item 
         createTask(input);
+        closeModal();
+    });
+    
+    // Modal controls
+    function openModal() {
+    modal.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+
+    // Tiny enter animation
+    requestAnimationFrame(() => {
+        panel.classList.remove('scale-95');
+        panel.classList.add('scale-100');
+    });
+
+    // Focus input for quick typing
+    setTimeout(() => input.focus(), 50);
+    }
+
+    function closeModal() {
+    // Tiny exit animation
+    panel.classList.add('scale-95');
+    panel.classList.remove('scale-100');
+
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+        form.reset();
+    }, 150);
+    }
+
+    // Event wiring
+    openBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+
+    // Close on backdrop click (outside the form)
+    backdrop.addEventListener('click', closeModal);
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeModal();
+    }
     });
     
     //clearing all completed item in one go
