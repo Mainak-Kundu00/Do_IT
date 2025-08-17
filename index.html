@@ -21,7 +21,7 @@
 
       <!-- Open login form button -->
       <button type="button" id="open-form" class="p-2 rounded-xl text-white bg-[#476fb4] hover:bg-blue-700">Sign In</button>
-<!-- working -->
+
       <!-- Modal Backdrop & Login Card -->
       <div id="login-modal" class="fixed inset-0 bg-black/70 bg-opacity-50 flex items-center justify-center z-50 hidden">
         <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm relative">
@@ -53,19 +53,30 @@
           </form>
         </div>
       </div>
-
-
-
-
-
-      
     </header>
 
-    <!-- Open modal button -->
-        <button id="open-modal-btn" class="block mx-auto min-w-[150px] mb-3 rounded-lg bg-blue-500 px-4 py-2 text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-          Add task
-        </button>
-        
+    <!-- Button Group: Add Task + Voice Command -->
+    <div class="flex justify-center gap-4 mb-3">
+      <!-- Add Task Button -->
+      <button id="open-modal-btn" class="min-w-[150px] rounded-lg bg-blue-500 px-4 py-2 text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        Add Task
+      </button>
+
+      <!-- Voice Command Button -->
+      <button id="voice-command-btn" class="min-w-[150px] rounded-lg bg-green-500 px-4 py-2 text-white shadow hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+      >
+        🎤 Voice Input
+      </button>
+    </div>
+
+
+
+
+
+
+
+
+
     <!-- Modal root -->
     <div id="modal" class="fixed inset-0 z-50 hidden grid place-items-center">
 
