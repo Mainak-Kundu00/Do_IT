@@ -12,7 +12,7 @@
   <div class="container mx-auto px-4 py-8 max-w-md">
     <!-- Header -->
     <header class="flex justify-between items-center mb-8">
-      <h1 class="text-3xl font-medium text-[#3a3939]">Todo </h1>
+      <h1 class="text-3xl font-medium text-[#3a3939] hover:text-black">Todo </h1>
 
       <!-- Open login form button -->
       <button type="button" id="open-form" class="p-2 rounded-xl text-white bg-[#476fb4] hover:bg-blue-700">Sign In</button>
@@ -54,7 +54,7 @@
     <div class="flex justify-center gap-4 mb-3">
       <!-- Add Task Button -->
       <button id="open-modal-btn" class="min-w-[150px] rounded-lg bg-blue-500 px-4 py-2 text-white shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        Add Task
+       ✍️ Add Task
       </button>
 
       <!-- Voice Command Button -->
@@ -65,9 +65,34 @@
     </div>
 
 
+<!-- working -->
+    <!-- Voice Modal -->
+    <div id="voice-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
+      <!-- Modal Panel -->
+      <div id="voice-panel" class="relative z-10 w-full max-w-md rounded-xl bg-white p-6 shadow-xl transition-all duration-200 opacity-0 scale-95">
+        <!-- Close Button -->
+        <button id="close-voice-btn" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl">
+          &times;
+        </button>
 
+        <!-- Title -->
+        <h2 class="text-xl font-semibold mb-4 text-center">Voice Command</h2>
 
+        <!-- Start Listening Button -->
+        <button id="start-voice-btn" class="w-full rounded-lg bg-green-600 px-4 py-2 text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 mb-4">
+        🎤 Start Listening
+        </button>
+        
+        <!-- What browser Heard -->
+        <div id="voice-heard" class="text-sm text-center my-2 font-semibold hidden">Heard:</div>
+        
+        <!-- Example Prompt -->
+        <p class="text-sm text-gray-600 text-center">
+          Example: <em>"Add task buy groceries"</em> or <em>"Complete homework by 6 PM"</em> or <em>"Delete night walk"</em>
+        </p>
 
+      </div>
+    </div>
 
 
 

@@ -1,13 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
     
+    // for form button
     const openForm = document.getElementById('open-form');
     const closeForm = document.getElementById('close-form');
     const loginForm = document.getElementById('login-modal');
+
+    // for add task button 
     const openBtn = document.getElementById('open-modal-btn');
     const modal = document.getElementById('modal');
     const backdrop = document.getElementById('modal-backdrop');
     const panel = document.getElementById('modal-panel');
     const closeBtn = document.getElementById('close-modal-btn');
+    
+    //for voice input button
+    const voiceBtn = document.getElementById('voice-command-btn');
+    const voiceModel = document.getElementById('voice-modal');
+    const voicePanel = document.getElementById('voice-panel');
+    const voiceClosebtn = document.getElementById('close-voice-btn');
+    const voiceInput = document.getElementById('start-voice-btn');
+    const heard = document.getElementById('voice-heard');
+
+    // for todo list work 
     const form = document.getElementById("todo-form");
     const input = document.getElementById("todo-input");
     const task_container = document.getElementById("todo-list");
@@ -16,6 +29,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
     //if localstorage have any item then it loades into tasks or loads an empty array
     let tasks = JSON.parse(localStorage.getItem('task')) || [];
+    
+
     
     //loading task in the web
     loadTask();
@@ -44,15 +59,51 @@ document.addEventListener("DOMContentLoaded", () => {
         loginForm.classList.add('hidden')
         document.body.classList.remove('overflow-hidden');
     });
-    loginForm.addEventListener('click', () => {
-        loginForm.classList.add('hidden')
-        document.body.classList.remove('overflow-hidden');
+    loginForm.addEventListener('click', (e) => {
+        if (e.target === loginForm) {
+            loginForm.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
     });
     
     // Add Task button
     openBtn.addEventListener('click', openModal);
     closeBtn.addEventListener('click', closeModal);
     backdrop.addEventListener('click', closeModal);
+
+    //Voice Button(whole voice panel)
+    voiceBtn.addEventListener('click', () => {
+        voiceModel.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+
+        // Animate in
+        requestAnimationFrame(() => {
+            voicePanel.classList.remove('opacity-0', 'scale-95');
+            voicePanel.classList.add('opacity-100', 'scale-100');
+        });
+
+    })
+    voiceClosebtn.addEventListener('click', () => {
+        voicePanel.classList.add('opacity-0', 'scale-95');
+        voicePanel.classList.remove('opacity-100', 'scale-100');
+
+        setTimeout(() => {
+            voiceModel.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }, 200);
+    })
+    voiceModel.addEventListener('click', (e) => {
+        if (e.target === voiceModel) {
+            voicePanel.classList.add('opacity-0', 'scale-95');
+                voicePanel.classList.remove('opacity-100', 'scale-100');
+
+                setTimeout(() => {
+                    voiceModel.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                }, 200);
+        }
+    });
+
     
     // Close on Escape key
     document.addEventListener('keydown', (e) => {
