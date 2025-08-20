@@ -104,6 +104,33 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    //voice input(recognition) work
+    voiceInput.addEventListener('click', () => {
+        //getting the speech recognition which is available
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        //if voice not supported
+        if (!SpeechRecognition) {
+            alert("Speech recognition not supported in this browser.");
+            return;
+        }
+
+        // creating object of the browser supported recognizer and defining properties
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.continuos = false;
+        
+        //starting the recording 
+        recognition.start();
+        voiceInput.innerHTML = "Listening .... 🎙️";
+        voiceInput.disabled = true;
+        
+        recognition.onresult((e) => {
+            const result = e.results[0][0].transcript.toLowerCase();
+
+            heard.innerText = `Heard: ${result}`;
+        });
+    });
     
     // Close on Escape key
     document.addEventListener('keydown', (e) => {
