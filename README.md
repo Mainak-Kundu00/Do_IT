@@ -5,7 +5,8 @@ A simple yet elegant task management app built using HTML, Tailwind CSS, and Jav
 ## 🚀 Features
 - Add and delete tasks
 - Mark tasks as completed
-- Filter active/completed tasks
+- Clear completed tasks in one go
+- Voice input
 - Responsive UI with Tailwind
 
 ## 🧑‍💻 Technologies Used
@@ -13,10 +14,9 @@ A simple yet elegant task management app built using HTML, Tailwind CSS, and Jav
 - Tailwind CSS
 - JavaScript (Vanilla)
 
-## 📦 How to Run
-Simply open `index.html` in your browser. No build tools required!
+## 🪧 Live Preview
+Click me👉 : https://mainak-kundu00.github.io/Do_IT/
 
 ## 🙌 Acknowledgments
 Inspired by classic todo app projects and built as part of a Udemy course.
 
-## 📂 Folder Structure

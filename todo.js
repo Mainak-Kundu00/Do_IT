@@ -1,16 +1,40 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // console.log("content loaded");
+    
+    // for form button
+    const openForm = document.getElementById('open-form');
+    const closeForm = document.getElementById('close-form');
+    const loginForm = document.getElementById('login-modal');
+
+    // for add task button 
+    const openBtn = document.getElementById('open-modal-btn');
+    const modal = document.getElementById('modal');
+    const backdrop = document.getElementById('modal-backdrop');
+    const panel = document.getElementById('modal-panel');
+    const closeBtn = document.getElementById('close-modal-btn');
+    
+    //for voice input button
+    const voiceBtn = document.getElementById('voice-command-btn');
+    const voiceModel = document.getElementById('voice-modal');
+    const voicePanel = document.getElementById('voice-panel');
+    const voiceClosebtn = document.getElementById('close-voice-btn');
+    const voiceInput = document.getElementById('start-voice-btn');
+    const heard = document.getElementById('voice-heard');
+
+    // for todo list work 
     const form = document.getElementById("todo-form");
+    const input = document.getElementById("todo-input");
     const task_container = document.getElementById("todo-list");
     const clear = document.getElementById("clear-completed");
     const count = document.getElementById("total-count");
-
+    
     //if localstorage have any item then it loades into tasks or loads an empty array
     let tasks = JSON.parse(localStorage.getItem('task')) || [];
+    
 
+    
     //loading task in the web
     loadTask();
-
+    
     form.addEventListener("submit", (e) => {
         e.preventDefault();
         
@@ -19,20 +43,158 @@ document.addEventListener("DOMContentLoaded", () => {
         
         //creating an todo item 
         createTask(input);
+        closeModal();
+    });
+    
+    //Login form button
+    openForm.addEventListener('click', () => {
+        const emailInput = document.getElementById('email');
+
+        loginForm.classList.remove('hidden')
+        document.body.classList.add('overflow-hidden');
+        
+        setTimeout(() => emailInput.focus(), 50);
+    });
+    closeForm.addEventListener('click', () => {
+        loginForm.classList.add('hidden')
+        document.body.classList.remove('overflow-hidden');
+    });
+    loginForm.addEventListener('click', (e) => {
+        if (e.target === loginForm) {
+            loginForm.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+    });
+    
+    // Add Task button
+    openBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+
+    //Voice Button(whole voice panel)
+    voiceBtn.addEventListener('click', () => {
+        voiceModel.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+
+        // Animate in
+        requestAnimationFrame(() => {
+            voicePanel.classList.remove('opacity-0', 'scale-95');
+            voicePanel.classList.add('opacity-100', 'scale-100');
+        });
+
+    })
+    voiceClosebtn.addEventListener('click', () => {
+        voicePanel.classList.add('opacity-0', 'scale-95');
+        voicePanel.classList.remove('opacity-100', 'scale-100');
+
+        setTimeout(() => {
+            voiceModel.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }, 200);
+    })
+    voiceModel.addEventListener('click', (e) => {
+        if (e.target === voiceModel) {
+            voicePanel.classList.add('opacity-0', 'scale-95');
+                voicePanel.classList.remove('opacity-100', 'scale-100');
+
+                setTimeout(() => {
+                    voiceModel.classList.add('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                }, 200);
+        }
+    });
+
+    //voice input(recognition) work
+    voiceInput.addEventListener('click', () => {
+        //getting the speech recognition which is available
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        //if voice not supported
+        if (!SpeechRecognition) {
+            alert("Speech recognition not supported in this browser.");
+            return;
+        }
+
+        // creating object of the browser supported recognizer and defining properties
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.continuous = false;
+        
+        //starting the recording 
+        recognition.start();
+        voiceInput.textContent = "Listening .... 🎙️";
+        voiceInput.disabled = true;
+
+        // remember its also a function variable
+        recognition.onresult = (e) => {
+            const result = e.results[0][0].transcript.toLowerCase();
+            //showing what browser heard
+            heard.innerText = `Heard: ${result}`;
+
+            voiceInput.textContent = "🎤 Start Listening";
+            voiceInput.disabled = false;
+        };
+
+        //if any error occurs
+        recognition.onerror = (event) => {
+            console.error('Voice error:', event.error);
+            
+            voiceInput.textContent = 'Start Listening';
+            voiceInput.disabled = false;
+            alert('Voice recognition failed. Try again.');
+        };
+    });
+    
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            closeModal();
+        }else if(e.key === 'Escape' && !loginForm.classList.contains('hidden')){
+            loginForm.classList.add('hidden');
+        }else if(e.key === 'Escape' && !voiceModel.classList.contains('hidden')){
+            voiceModel.classList.add('hidden');
+        }
     });
     
     //clearing all completed item in one go
     clear.addEventListener("click", () => {
-       tasks.forEach(item => {
-        if (item.completed) {
-            const div = document.querySelector(`[item_id="${item.id}"]`);
-            if (div) div.remove(); // removes from DOM
-        }
+        tasks.forEach(item => {
+            if (item.completed) {
+                const div = document.querySelector(`[item_id="${item.id}"]`);
+                if (div) div.remove(); // removes from DOM
+            }
         });
         //removes from array
         tasks = tasks.filter(item => !item.completed);
         saveTask(); 
     });
+
+    // Modal controls
+    function openModal() {
+        modal.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+
+        // Tiny enter animation
+        requestAnimationFrame(() => {
+            panel.classList.remove('scale-95');
+            panel.classList.add('scale-100');
+        });
+
+        // Focus input for quick typing and setTimeout is used to prevent timing missmatch with the modal 
+        setTimeout(() => input.focus(), 50);
+    }
+
+    function closeModal() {
+        // Tiny exit animation
+        panel.classList.add('scale-95');
+        panel.classList.remove('scale-100');
+
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            form.reset();
+        }, 150);
+    }
 
     function createTask(input){
         //if input is empty
