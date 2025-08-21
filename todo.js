@@ -118,18 +118,31 @@ document.addEventListener("DOMContentLoaded", () => {
         // creating object of the browser supported recognizer and defining properties
         const recognition = new SpeechRecognition();
         recognition.lang = 'en-US';
-        recognition.continuos = false;
+        recognition.continuous = false;
         
         //starting the recording 
         recognition.start();
-        voiceInput.innerHTML = "Listening .... 🎙️";
+        voiceInput.textContent = "Listening .... 🎙️";
         voiceInput.disabled = true;
-        
-        recognition.onresult((e) => {
-            const result = e.results[0][0].transcript.toLowerCase();
 
+        // remember its also a function variable
+        recognition.onresult = (e) => {
+            const result = e.results[0][0].transcript.toLowerCase();
+            //showing what browser heard
             heard.innerText = `Heard: ${result}`;
-        });
+
+            voiceInput.textContent = "🎤 Start Listening";
+            voiceInput.disabled = false;
+        };
+
+        //if any error occurs
+        recognition.onerror = (event) => {
+            console.error('Voice error:', event.error);
+            
+            voiceInput.textContent = 'Start Listening';
+            voiceInput.disabled = false;
+            alert('Voice recognition failed. Try again.');
+        };
     });
     
     // Close on Escape key
@@ -138,6 +151,8 @@ document.addEventListener("DOMContentLoaded", () => {
             closeModal();
         }else if(e.key === 'Escape' && !loginForm.classList.contains('hidden')){
             loginForm.classList.add('hidden');
+        }else if(e.key === 'Escape' && !voiceModel.classList.contains('hidden')){
+            voiceModel.classList.add('hidden');
         }
     });
     
