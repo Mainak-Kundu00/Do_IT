@@ -1,6 +1,7 @@
+//// unfinished voice recognition work due to device issue
 document.addEventListener("DOMContentLoaded", () => {
     
-    // for form button
+    // for loginform button
     const openForm = document.getElementById('open-form');
     const closeForm = document.getElementById('close-form');
     const loginForm = document.getElementById('login-modal');
@@ -23,6 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // for todo list work 
     const form = document.getElementById("todo-form");
     const input = document.getElementById("todo-input");
+    const category = document.getElementById("todo-category");
     const task_container = document.getElementById("todo-list");
     const clear = document.getElementById("clear-completed");
     const count = document.getElementById("total-count");
@@ -30,7 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
     //if localstorage have any item then it loades into tasks or loads an empty array
     let tasks = JSON.parse(localStorage.getItem('task')) || [];
     
-
+////////// /////////// /////////// 
+    console.log(category.value);
     
     //loading task in the web
     loadTask();
