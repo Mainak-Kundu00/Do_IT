@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
         voiceInput.textContent = "Listening .... 🎙️";
         voiceInput.disabled = true;
 
-        // remember its also a function variable
+        // remember its a function variable (look closely on the next line)
         recognition.onresult = (e) => {
             const result = e.results[0][0].transcript.toLowerCase();
             //showing what browser heard

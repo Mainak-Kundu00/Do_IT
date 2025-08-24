@@ -11,8 +11,9 @@
     }
   </style>
   <script src="todo.js"></script>
-
+  <script src="todo_category.js"></script>
 </head>
+
 <body class="bg-[#aaadb0db] text-gray-800 min-h-screen">
   <div class="container mx-auto px-4 py-8 max-w-md">
     <!-- Header -->
@@ -133,38 +134,16 @@
 
     <!-- Category Section -->
     <div class="grid grid-flow-col my-4 bg-white  max-h-8"> 
-      <ul id="category-list" class="flex justify-between overflow-x-scroll scroll-hide">
+
+      <p class="inline font-semibold col-span-1 text-center">Categories:</p>
+
+      <ul id="category-list" class="col-span-10 flex justify-between overflow-x-scroll scroll-hide">
         <li>
           <button class="p-1.5 bg-gray-200 font-bold text-sm hover:bg-gray-300">All</button>
-          
-        </li>
-        <li>
-          <button class="p-1.5 bg-gray-200 font-bold text-sm hover:bg-gray-300">Work</button>
-          
-        </li>
-        <li>
-          <button class="p-1.5 bg-gray-200 font-bold text-sm hover:bg-gray-300">Personal</button>
-          
-        </li>
-        <li>
-          <button class="p-1.5 bg-gray-200  text-sm hover:bg-gray-300">Shopping</button>
-          
-        </li>
-        <li>
-          <button class="p-1.5 bg-gray-200  text-sm hover:bg-gray-300">Shopping</button>
-          
-        </li>
-        <li>
-          <button class="p-1.5 bg-gray-200  text-sm hover:bg-gray-300">Shopping</button>
-          
-        </li>
-        <li>
-          <button class="p-1.5 bg-gray-200  text-sm hover:bg-gray-300">Shopping</button>
-          
-        </li>
+        </li>  
       </ul>
 
-      <button id="add-category-btn" class="p-1.5 bg-blue-500 text-white text-sm h-fit hover:bg-blue-600">
+      <button id="add-category-btn" class="col-span-1 p-1.5 bg-blue-500 text-white text-sm h-fit hover:bg-blue-600">
         + Add
         </button>
     </div>
