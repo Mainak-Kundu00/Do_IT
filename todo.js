@@ -93,6 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             voiceModel.classList.add('hidden');
             document.body.classList.remove('overflow-hidden');
+            heard.innerText = "";
         }, 200);
     })
     voiceModel.addEventListener('click', (e) => {
@@ -103,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 setTimeout(() => {
                     voiceModel.classList.add('hidden');
                     document.body.classList.remove('overflow-hidden');
+                    heard.innerText = "";
                 }, 200);
         }
     });
