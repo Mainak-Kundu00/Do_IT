@@ -16,45 +16,99 @@
 
 <body class="bg-[#aaadb0db] text-gray-800 min-h-screen">
   <div class="container mx-auto px-4 py-8 max-w-md">
-    <!-- Header -->
-    <header class="flex justify-between items-center mb-8">
-      <h1 class="text-3xl font-medium text-[#3a3939] hover:text-black">Todo </h1>
 
-      <!-- Open login form button -->
-      <button type="button" id="open-form" class="p-2 rounded-xl text-white bg-[#476fb4] hover:bg-blue-700">Sign In</button>
+    <header class="flex justify-between items-center mb-8 relative">
+      <h1 class="text-3xl font-medium text-[#3a3939] hover:text-black">Todo</h1>
 
-      <!-- Modal Backdrop & Login Card -->
-      <div id="login-modal" class="fixed inset-0 bg-black/70 bg-opacity-50 flex items-center justify-center z-50 hidden">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm relative">
-          <!-- Close Button -->
-          <button id="close-form" class="absolute top-1 right-2 text-gray-500 hover:text-gray-700 text-3xl">&times;</button>
+      <div class="flex items-center gap-4">
+        <!-- Open login form button -->
+          <button type="button" id="open-form" class="p-2 rounded-xl text-white bg-[#476fb4] hover:bg-blue-700">Sign In</button>
 
-          <h2 class="text-2xl font-bold mb-4 text-center">Login</h2>
+          <!-- Modal Backdrop & Login Card -->
+          <div id="login-modal" class="fixed inset-0 bg-black/70 bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-sm relative">
+              <!-- Close Button -->
+              <button id="close-form" class="absolute top-1 right-2 text-gray-500 hover:text-gray-700 text-3xl">&times;</button>
 
-          <form action="/login" method="POST" class="space-y-4">
-            <div>
-              <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-              <input type="email" id="email" name="email" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+              <h2 class="text-2xl font-bold mb-4 text-center">Login</h2>
+
+              <form action="/login" method="POST" class="space-y-4">
+                <div>
+                  <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                  <input type="email" id="email" name="email" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                </div>
+
+                <div>
+                  <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+
+                  <input type="password" id="password" name="password" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition">
+                  Sign In  (Work on progress)
+                </button>
+
+                <p class="mt-4 text-sm text-center text-gray-600">
+                  Don't have an account?
+                  <a href="/register" class="text-blue-600 hover:underline">Register(work on progress)</a>
+                </p>
+              </form>
             </div>
+          </div>
 
-            <div>
-              <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+        <!-- Three-dot Menu Button -->
+        <button id="menu-toggle" class="text-2xl text-gray-600 hover:text-gray-800">⋮</button>
+      </div>
 
-              <input type="password" id="password" name="password" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-            </div>
+      <!-- Dropdown Menu -->
+      <div id="menu-dropdown" class="absolute top-full right-0 mt-2 w-64 bg-white border rounded-lg shadow-lg hidden z-40">
+        <button id="category-toggle" class="w-full flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+          Category
+          <span id="chevron" class="transform transition-transform">&#9662;</span>
+        </button>
 
-            <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition">
-              Sign In  (Work on progress)
-            </button>
-
-            <p class="mt-4 text-sm text-center text-gray-600">
-              Don't have an account?
-              <a href="/register" class="text-blue-600 hover:underline">Register(work on progress)</a>
-            </p>
-          </form>
-        </div>
+        <!-- Category List -->
+        <ul id="category-list" class="px-4 py-2 space-y-2 hidden">
+          <li class="flex justify-between items-center text-sm text-gray-700">
+            <span>All</span>
+            <button class="text-red-500 hover:text-red-700 text-xs">🗑️</button>
+          </li>
+          <li class="flex justify-between items-center text-sm text-gray-700">
+            <span>Work</span>
+            <button class="text-red-500 hover:text-red-700 text-xs">🗑️</button>
+          </li>
+          <li class="flex justify-between items-center text-sm text-gray-700">
+            <span>Personal</span>
+            <button class="text-red-500 hover:text-red-700 text-xs">🗑️</button>
+          </li>
+          <li class="flex justify-between items-center text-sm text-gray-700">
+            <span>Shopping</span>
+            <button class="text-red-500 hover:text-red-700 text-xs">🗑️</button>
+          </li>
+          <li>
+            <button class="w-full text-blue-600 text-sm hover:underline">+ Add</button>
+          </li>
+        </ul>
       </div>
     </header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <!-- Button Group: Add Task + Voice Command -->
     <div class="flex justify-center gap-4 mb-3">
@@ -71,7 +125,7 @@
     </div>
 
 
-<!-- working -->
+<!-- working (to be continued) -->
     <!-- Voice Modal -->
     <div id="voice-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/50">
       <!-- Modal Panel -->
@@ -131,6 +185,9 @@
 
       </div>
     </div>
+
+
+    <!-- to be completed -->
 
     <!-- Category Section -->
     <div class="grid grid-flow-col my-4 bg-white  max-h-8"> 

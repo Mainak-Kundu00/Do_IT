@@ -30,5 +30,41 @@ document.addEventListener("DOMContentLoaded", () => {
         li.appendChild(button);       
         categoryList.appendChild(li);
     }
+
+
+
+
+// testing
+const menuToggle = document.getElementById('menu-toggle');
+const menuDropdown = document.getElementById('menu-dropdown');
+const categoryToggle = document.getElementById('category-toggle');
+// const categoryList = document.getElementById('category-list');
+const chevron = document.getElementById('chevron');
+
+// Toggle dropdown menu
+menuToggle.addEventListener('click', () => {
+  menuDropdown.classList.toggle('hidden');
+});
+
+// Toggle category list
+categoryToggle.addEventListener('click', () => {
+  categoryList.classList.toggle('hidden');
+  chevron.classList.toggle('rotate-180');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
 });
