@@ -57,18 +57,18 @@
           </div>
 
         <!-- Three-dot Menu Button -->
-        <button id="menu-toggle" class="text-2xl text-gray-600 hover:text-gray-800">⋮</button>
+        <button id="menu-toggle" class="w-5 inline-block text-2xl font-bold text-black/80 hover:text-gray-800">⋮</button>
       </div>
 
       <!-- Dropdown Menu -->
-      <div id="menu-dropdown" class="absolute top-full right-0 mt-2 w-64 bg-white border rounded-lg shadow-lg hidden z-40">
+      <div id="menu-dropdown" class="absolute top-full right-0 mt-2 w-64 bg-white border rounded-lg shadow-lg z-40 transition-all duration-300 transform scale-95 opacity-0 hidden hover:rounded-lg">
         <button id="category-toggle" class="w-full flex justify-between items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
           Category
-          <span id="chevron" class="transform transition-transform">&#9662;</span>
+          <span id="arrow" class="transform transition-transform">&#9662;</span>
         </button>
 
         <!-- Category List -->
-        <ul id="category-list" class="px-4 py-2 space-y-2 hidden">
+        <ul id="menu-category-list" class="px-4 py-2 space-y-2 hidden">
           <li class="flex justify-between items-center text-sm text-gray-700">
             <span>All</span>
             <button class="text-red-500 hover:text-red-700 text-xs">🗑️</button>
@@ -83,10 +83,14 @@
           </li>
           <li class="flex justify-between items-center text-sm text-gray-700">
             <span>Shopping</span>
-            <button class="text-red-500 hover:text-red-700 text-xs">🗑️</button>
+            <button class="float-right text-red-500 hover:text-red-700"> 
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+              </svg>
+            </button>
           </li>
           <li>
-            <button class="w-full text-blue-600 text-sm hover:underline">+ Add</button>
+            <button id="add-category-btn" class="w-full text-blue-600 text-sm hover:underline">+ Add</button>
           </li>
         </ul>
       </div>
@@ -194,15 +198,11 @@
 
       <p class="inline font-semibold col-span-1 text-center">Categories:</p>
 
-      <ul id="category-list" class="col-span-10 flex justify-between overflow-x-scroll scroll-hide">
+      <ul id="category-list" class="col-span-11 flex justify-between overflow-x-scroll scroll-hide">
         <li>
-          <button class="p-1.5 bg-gray-200 font-bold text-sm hover:bg-gray-300">All</button>
+          <button class="p-1.5 bg-gray-200 font-semibold text-sm hover:bg-gray-300">All</button>
         </li>  
       </ul>
-
-      <button id="add-category-btn" class="col-span-1 p-1.5 bg-blue-500 text-white text-sm h-fit hover:bg-blue-600">
-        + Add
-        </button>
     </div>
 
 
