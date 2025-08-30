@@ -237,9 +237,6 @@
   .col-span-1 {
     grid-column: span 1 / span 1;
   }
-  .col-span-10 {
-    grid-column: span 10 / span 10;
-  }
   .col-span-11 {
     grid-column: span 11 / span 11;
   }
@@ -300,9 +297,6 @@
   .mb-8 {
     margin-bottom: calc(var(--spacing) * 8);
   }
-  .ml-1 {
-    margin-left: calc(var(--spacing) * 1);
-  }
   .ml-1\.5 {
     margin-left: calc(var(--spacing) * 1.5);
   }
@@ -324,14 +318,8 @@
   .inline-block {
     display: inline-block;
   }
-  .table {
-    display: table;
-  }
   .h-5 {
     height: calc(var(--spacing) * 5);
-  }
-  .h-fit {
-    height: fit-content;
   }
   .max-h-8 {
     max-height: calc(var(--spacing) * 8);
@@ -339,26 +327,11 @@
   .min-h-screen {
     min-height: 100vh;
   }
-  .w-2 {
-    width: calc(var(--spacing) * 2);
-  }
-  .w-4 {
-    width: calc(var(--spacing) * 4);
-  }
   .w-5 {
     width: calc(var(--spacing) * 5);
   }
   .w-64 {
     width: calc(var(--spacing) * 64);
-  }
-  .w-\[2\%\] {
-    width: 2%;
-  }
-  .w-\[5\%\] {
-    width: 5%;
-  }
-  .w-\[10\%\] {
-    width: 10%;
   }
   .w-full {
     width: 100%;
@@ -371,9 +344,6 @@
   }
   .min-w-\[150px\] {
     min-width: 150px;
-  }
-  .border-collapse {
-    border-collapse: collapse;
   }
   .scale-95 {
     --tw-scale-x: 95%;
@@ -392,9 +362,6 @@
   }
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
-  }
-  .resize {
-    resize: both;
   }
   .grid-flow-col {
     grid-auto-flow: column;
@@ -462,9 +429,6 @@
   .bg-\[\#aaadb0db\] {
     background-color: #aaadb0db;
   }
-  .bg-black {
-    background-color: var(--color-black);
-  }
   .bg-black\/50 {
     background-color: color-mix(in srgb, #000 50%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -494,9 +458,6 @@
   }
   .bg-white {
     background-color: var(--color-white);
-  }
-  .p-1 {
-    padding: calc(var(--spacing) * 1);
   }
   .p-1\.5 {
     padding: calc(var(--spacing) * 1.5);
@@ -567,15 +528,6 @@
   .text-\[\#3a3939\] {
     color: #3a3939;
   }
-  .text-black {
-    color: var(--color-black);
-  }
-  .text-black\/60 {
-    color: color-mix(in srgb, #000 60%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      color: color-mix(in oklab, var(--color-black) 60%, transparent);
-    }
-  }
   .text-black\/80 {
     color: color-mix(in srgb, #000 80%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -609,9 +561,6 @@
   .line-through {
     text-decoration-line: line-through;
   }
-  .underline {
-    text-decoration-line: underline;
-  }
   .opacity-0 {
     opacity: 0%;
   }
@@ -636,10 +585,6 @@
   .shadow-xl {
     --tw-shadow: 0 20px 25px -5px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 8px 10px -6px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-  }
-  .outline {
-    outline-style: var(--tw-outline-style);
-    outline-width: 1px;
   }
   .transition {
     transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, visibility, content-visibility, overlay, pointer-events;
@@ -669,24 +614,10 @@
     --tw-duration: 300ms;
     transition-duration: 300ms;
   }
-  .hover\:rounded {
-    &:hover {
-      @media (hover: hover) {
-        border-radius: 0.25rem;
-      }
-    }
-  }
   .hover\:rounded-lg {
     &:hover {
       @media (hover: hover) {
         border-radius: var(--radius-lg);
-      }
-    }
-  }
-  .hover\:bg-blue-600 {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-blue-600);
       }
     }
   }
@@ -919,11 +850,6 @@
   inherits: false;
   initial-value: 0 0 #0000;
 }
-@property --tw-outline-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
 @property --tw-duration {
   syntax: "*";
   inherits: false;
@@ -956,7 +882,6 @@
       --tw-ring-offset-width: 0px;
       --tw-ring-offset-color: #fff;
       --tw-ring-offset-shadow: 0 0 #0000;
-      --tw-outline-style: solid;
       --tw-duration: initial;
     }
   }
