@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const categoryToggle = document.getElementById('category-toggle');
   const menuCategoryList = document.getElementById('menu-category-list');
   const dropArrow = document.getElementById('arrow');
-  const addCategoryButton = document.getElementById('add-category-btn').parentElement;
+  const addCategoryButton = document.getElementById('add-category-btn');
   
-  const categories = JSON.parse(localStorage.getItem('categories')) || [];
+  let categories = JSON.parse(localStorage.getItem('categories')) || [];
   let hasRendered = false;
     
     //load categories
@@ -42,13 +42,27 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 200);
     }
 
-    document.getElementById("add-category-btn").addEventListener('click', () => {
+    function addCategoryDropDown(item){
+      const li = document.createElement('li');
 
-      ///////////////// need to replace this prompt with input element in html and handle it in the js /////////
+      li.className = "flex justify-between items-center text-sm text-gray-700";
+      li.innerHTML = `<span>${item}</span>
+            <button id="delete-category" class="float-right text-red-500 hover:text-red-700"> 
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+              </svg>
+            </button>`;
+
+      menuCategoryList.insertBefore(li,addCategoryButton.parentElement);
+    }
+
+    //add categories
+    addCategoryButton.addEventListener('click', () => {
         const newCategory = prompt("Enter new category name:");
-        if (!newCategory.trim()) return;
+        if (!newCategory.trim() || categories.includes(newCategory.trim())) return;
 
         addCategories(newCategory);
+        addCategoryDropDown(newCategory);
 
         categories.push(newCategory);
         saveCategories();
@@ -87,22 +101,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
       //rendering the categories in the dropdown list
       if(!hasRendered){
-        categories.forEach((item) => {
-        const li = document.createElement('li');
-
-        li.className = "flex justify-between items-center text-sm text-gray-700";
-        li.innerHTML = `<span>${item}</span>
-            <button class="float-right text-red-500 hover:text-red-700"> 
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-              </svg>
-            </button>`;
-
-        menuCategoryList.insertBefore(li,addCategoryButton);
-        });
+        categories.forEach(item => addCategoryDropDown(item));
         hasRendered = true;
       }
 
     });
     
+    //delete category
+    menuCategoryList.addEventListener('click', (e) => {
+        const deleteBtn = e.target.closest('button');
+        
+        if (deleteBtn) {
+          const li = deleteBtn.closest('li');
+          const categoryName = li.querySelector('span').textContent;
+
+          // Remove from DOM
+          li.remove();
+
+          // Update categories array and localStorage
+          categories = categories.filter(cat => cat != categoryName);
+          saveCategories();
+        }
+    });
+
 });
