@@ -12,7 +12,19 @@ document.addEventListener("DOMContentLoaded", () => {
   let hasRendered = false;
     
     //load categories
-    categories.forEach((item) => addCategories(item));
+    loadCategories();
+
+    function loadCategories()
+    {
+      const li = document.createElement('li');
+
+      categoryList.innerHTML = "";
+
+      li.innerHTML = `<button class="p-1.5 bg-gray-200 font-semibold text-sm hover:bg-gray-300">All</button>`;
+      categoryList.appendChild(li);
+
+      categories.forEach((item) => addCategories(item));
+    }
     
     function saveCategories(){
         localStorage.setItem('categories',JSON.stringify(categories));
@@ -23,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const button = document.createElement('button');
     
         button.textContent = item.trim();
-        button.className = "p-1.5 bg-gray-200 font-semibold text-sm hover:bg-gray-300";        
+        button.className = "p-1.5 bg-gray-200 font-semibold whitespace-nowrap text-sm  hover:bg-gray-300";        
       
         li.appendChild(button);       
         categoryList.appendChild(li);
@@ -109,19 +121,25 @@ document.addEventListener("DOMContentLoaded", () => {
     
     //delete category
     menuCategoryList.addEventListener('click', (e) => {
-        const deleteBtn = e.target.closest('button');
+        const deleteBtn = e.target.parentElement;
+
         
-        if (deleteBtn) {
+        if(deleteBtn.tagName.toLowerCase() === 'svg'){
+
           const li = deleteBtn.closest('li');
           const categoryName = li.querySelector('span').textContent;
-
+          
           // Remove from DOM
           li.remove();
 
           // Update categories array and localStorage
           categories = categories.filter(cat => cat != categoryName);
           saveCategories();
+
+          //reload categories
+          loadCategories();
         }
+        else {return}
     });
 
 });
