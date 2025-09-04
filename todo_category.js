@@ -19,8 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const li = document.createElement('li');
 
       categoryList.innerHTML = "";
-
-      li.innerHTML = `<button class="p-1.5 bg-gray-200 font-semibold text-sm hover:bg-gray-300">All</button>`;
+      
+      li.innerHTML = `<button category='All' class="p-1.5 font-semibold bg-blue-400 text-sm hover:bg-blue-300">All</button>`;
       categoryList.appendChild(li);
 
       categories.forEach((item) => addCategories(item));
@@ -33,9 +33,10 @@ document.addEventListener("DOMContentLoaded", () => {
     function addCategories(item){
         const li = document.createElement('li');
         const button = document.createElement('button');
-    
+
+        button.setAttribute('category',item.trim());
         button.textContent = item.trim();
-        button.className = "p-1.5 bg-gray-200 font-semibold whitespace-nowrap text-sm  hover:bg-gray-300";        
+        button.className = "p-1.5 bg-gray-300 font-semibold whitespace-nowrap text-sm  hover:bg-blue-300";        
       
         li.appendChild(button);       
         categoryList.appendChild(li);
