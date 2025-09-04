@@ -105,18 +105,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }else{
             const button = document.querySelector("button[category='All']");
                     
-                    button.classList.add("bg-blue-400");
-                    button.classList.remove("bg-gray-300");
-                    //loop through other categories to 
-                    categories.forEach((cat) => {
-                        let category = document.querySelector(`button[category= "${cat}"]`);
+            button.classList.add("bg-blue-400");
+            button.classList.remove("bg-gray-300");
+            //loop through other categories to 
+            categories.forEach((cat) => {
+                let category = document.querySelector(`button[category= "${cat}"]`);
                                 
-                        category.classList.remove("bg-blue-400");
-                        category.classList.add("bg-gray-300");                    
-                    });
+                category.classList.remove("bg-blue-400");
+                category.classList.add("bg-gray-300");                    
+            });
             tasks.forEach((item) => renderTask(item));
         }
     }
+
+    //its only purpose is to show the category UI
     function loadTaskByFilter(){ 
         task_container.innerHTML = "";
          if(tasks.length === 0){
