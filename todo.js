@@ -84,8 +84,16 @@ document.addEventListener("DOMContentLoaded", () => {
             completed: false
         }
         tasks.push(item);
-        categories.push(category);
-        
+        //if category isn't in the list then add it in the list
+        let hasCategory = categories.filter(cat => cat==category);
+        if(hasCategory){
+            categories.push(category);
+            saveCategories();
+            addCategoryDropDown(category);
+            addCategories(category);
+        }
+
+
         //saving task to localstorage
         saveTask();
         //reseting the input field after submiting input
@@ -107,12 +115,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     
             button.classList.add("bg-blue-400");
             button.classList.remove("bg-gray-300");
-            //loop through other categories to 
+            //loop through other categories to remove class from other categories 
             categories.forEach((cat) => {
                 let category = document.querySelector(`button[category= "${cat}"]`);
-                                
-                category.classList.remove("bg-blue-400");
-                category.classList.add("bg-gray-300");                    
+                    
+                if(category){
+                    category.classList.remove("bg-blue-400");
+                    category.classList.add("bg-gray-300");                    
+                }
             });
             tasks.forEach((item) => renderTask(item));
         }
