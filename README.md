@@ -7,6 +7,7 @@ A simple yet elegant task management app built using HTML, Tailwind CSS, and Jav
 - Mark tasks as completed
 - Clear completed tasks in one go
 - Voice input
+- Category wise task filtering
 - Responsive UI with Tailwind
 
 ## 🧑‍💻 Technologies Used

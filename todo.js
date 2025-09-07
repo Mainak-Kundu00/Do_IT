@@ -71,6 +71,21 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 150);
     }
     
+    function closeVoiceModal(){
+        voicePanel.classList.add('opacity-0', 'scale-95');
+        voicePanel.classList.remove('opacity-100', 'scale-100');
+        
+        setTimeout(() => {
+            voiceModel.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+            heard.innerText = "";
+        }, 200);
+        
+        //if voice model closed while browser listening
+        voiceInput.textContent = "🎤 Start Listening";
+        voiceInput.disabled = false;
+    }
+    
     function createTask(input,category){
         //if input is empty
         if(input === "") {
@@ -453,25 +468,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     })
     voiceClosebtn.addEventListener('click', () => {
-        voicePanel.classList.add('opacity-0', 'scale-95');
-        voicePanel.classList.remove('opacity-100', 'scale-100');
-
-        setTimeout(() => {
-            voiceModel.classList.add('hidden');
-            document.body.classList.remove('overflow-hidden');
-            heard.innerText = "";
-        }, 200);
+        closeVoiceModal();
     })
     voiceModel.addEventListener('click', (e) => {
         if (e.target === voiceModel) {
-            voicePanel.classList.add('opacity-0', 'scale-95');
-                voicePanel.classList.remove('opacity-100', 'scale-100');
-
-                setTimeout(() => {
-                    voiceModel.classList.add('hidden');
-                    document.body.classList.remove('overflow-hidden');
-                    heard.innerText = "";
-                }, 200);
+            closeVoiceModal();
         }
     });
 ///////////// ongoing work /////////////////
@@ -502,11 +503,13 @@ document.addEventListener("DOMContentLoaded", () => {
             //showing what browser heard
             heard.innerText = `Heard: ${result}`;
 
-            if(transcript.startsWith('add task')){
-                const taskText = transcript.replace("add task", '').trim();
+            if(result.startsWith('add task')){
+                const taskText = result.replace("add task", '').trim();
                 if(taskText){
                     createTask(taskText,null);
                 }
+            }else{
+                closeModal();
             }
             
             voiceInput.textContent = "🎤 Start Listening";
@@ -517,7 +520,7 @@ document.addEventListener("DOMContentLoaded", () => {
         recognition.onerror = (event) => {
             console.error('Voice error:', event.error);
             
-            voiceInput.textContent = 'Start Listening';
+            voiceInput.textContent = '🎤 Start Listening';
             voiceInput.disabled = false;
             alert('Voice recognition failed. Try again.');
         };
