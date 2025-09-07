@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    //there are some bugs in category related work (check in ph not desktop)
     // for loginform button
     const openForm = document.getElementById('open-form');
     const closeForm = document.getElementById('close-form');
@@ -101,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         tasks.push(item);
         //if category isn't empty and not in the list then add it in the list
-        if (category && !categories.includes(category)) {
+        if (category && !categories.includes(category.trim())) {
             categories.push(category);
             saveCategories();
             addCategoryDropDown(category);
@@ -503,18 +502,17 @@ document.addEventListener("DOMContentLoaded", () => {
             if(result.startsWith('add task')){
                 const taskText = result.replace("add task", '').trim();
                 if(taskText){
-                    // testTask(taskText,null);
                     createTask(taskText,null);
                 }
             }else{
                 setTimeout(() => {
                     alert("Command not recognized. Try saying 'add task [task name]'.")
-                }, 1500);
+                }, 900);
             }
             
             voiceInput.textContent = "🎤 Start Listening";
             voiceInput.disabled = false;
-            closeModal();
+            closeVoiceModal();
         };
 
         //if any error occurs
@@ -526,18 +524,6 @@ document.addEventListener("DOMContentLoaded", () => {
             alert('Voice recognition failed. Try again.');
         };
     });
-
-    //// for testing purpose ... will delete later ////
-    function testTask(text) {
-  const li = document.createElement('li');
-  li.className = "flex justify-between items-center p-2 border-b";
-  li.innerHTML = `
-    <span>${text}</span>
-    <button class="text-red-500 hover:text-red-700">🗑️</button>
-  `;
-  task_container.appendChild(li);
-}
-
     
     // Close on Escape key
     document.addEventListener('keydown', (e) => {
