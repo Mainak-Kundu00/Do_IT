@@ -499,17 +499,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // remember its a function variable (look closely on the next line)
         recognition.onresult = (e) => {
-            const result = e.results[0][0].transcript.toLowerCase();
+            const result = e.results[0][0].transcript.toLowerCase().trim();
             //showing what browser heard
             heard.innerText = `Heard: ${result}`;
 
             if(result.startsWith('add task')){
                 const taskText = result.replace("add task", '').trim();
                 if(taskText){
-                    createTask(taskText,null);
+                    testTask(taskText,null);
                 }
             }else{
                 closeModal();
+                alert("Command not recognized. Try saying 'add task [task name]'.");
             }
             
             voiceInput.textContent = "🎤 Start Listening";
@@ -517,14 +518,24 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         //if any error occurs
-        recognition.onerror = (event) => {
-            console.error('Voice error:', event.error);
+        recognition.onerror = (e) => {
+            console.error('Voice error:', e.error);
             
             voiceInput.textContent = '🎤 Start Listening';
             voiceInput.disabled = false;
             alert('Voice recognition failed. Try again.');
         };
     });
+    function testTask(text) {
+  const li = document.createElement('li');
+  li.className = "flex justify-between items-center p-2 border-b";
+  li.innerHTML = `
+    <span>${text}</span>
+    <button class="text-red-500 hover:text-red-700">🗑️</button>
+  `;
+  task_container.appendChild(li);
+}
+
     
     // Close on Escape key
     document.addEventListener('keydown', (e) => {
