@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    //there are some bugs in category related work (check in ph not desktop)
     // for loginform button
     const openForm = document.getElementById('open-form');
     const closeForm = document.getElementById('close-form');
@@ -84,15 +85,16 @@ document.addEventListener("DOMContentLoaded", () => {
             completed: false
         }
         tasks.push(item);
-        //if category isn't in the list then add it in the list
-        let hasCategory = categories.filter(cat => cat==category);
-        if(hasCategory){
-            categories.push(category);
-            saveCategories();
-            addCategoryDropDown(category);
-            addCategories(category);
+        //if category isn't empty and not in the list then add it in the list
+        if(category){
+            let hasCategory = categories.filter(cat => cat==category);
+            if(hasCategory){
+                categories.push(category);
+                saveCategories();
+                addCategoryDropDown(category);
+                addCategories(category);
+            }
         }
-
 
         //saving task to localstorage
         saveTask();
@@ -472,7 +474,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }, 200);
         }
     });
-
+///////////// ongoing work /////////////////
     //voice input(recognition) work
     voiceInput.addEventListener('click', () => {
         //getting the speech recognition which is available
@@ -500,6 +502,13 @@ document.addEventListener("DOMContentLoaded", () => {
             //showing what browser heard
             heard.innerText = `Heard: ${result}`;
 
+            if(transcript.startsWith('add task')){
+                const taskText = transcript.replace("add task", '').trim();
+                if(taskText){
+                    createTask(taskText,null);
+                }
+            }
+            
             voiceInput.textContent = "🎤 Start Listening";
             voiceInput.disabled = false;
         };
