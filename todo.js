@@ -101,14 +101,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         tasks.push(item);
         //if category isn't empty and not in the list then add it in the list
-        if(category){
-            let hasCategory = categories.filter(cat => cat==category);
-            if(hasCategory){
-                categories.push(category);
-                saveCategories();
-                addCategoryDropDown(category);
-                addCategories(category);
-            }
+        if (category && !categories.includes(category)) {
+            categories.push(category);
+            saveCategories();
+            addCategoryDropDown(category);
+            addCategories(category);
         }
 
         //saving task to localstorage
@@ -506,15 +503,18 @@ document.addEventListener("DOMContentLoaded", () => {
             if(result.startsWith('add task')){
                 const taskText = result.replace("add task", '').trim();
                 if(taskText){
-                    testTask(taskText,null);
+                    // testTask(taskText,null);
+                    createTask(taskText,null);
                 }
             }else{
-                closeModal();
-                alert("Command not recognized. Try saying 'add task [task name]'.");
+                setTimeout(() => {
+                    alert("Command not recognized. Try saying 'add task [task name]'.")
+                }, 1500);
             }
             
             voiceInput.textContent = "🎤 Start Listening";
             voiceInput.disabled = false;
+            closeModal();
         };
 
         //if any error occurs
@@ -526,6 +526,8 @@ document.addEventListener("DOMContentLoaded", () => {
             alert('Voice recognition failed. Try again.');
         };
     });
+
+    //// for testing purpose ... will delete later ////
     function testTask(text) {
   const li = document.createElement('li');
   li.className = "flex justify-between items-center p-2 border-b";
