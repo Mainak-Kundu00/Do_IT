@@ -115,6 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     function loadTask(){ 
+        tasksCopy = tasks;
         task_container.innerHTML = "";
          if(tasks.length === 0){
             const div = document.createElement("div");
@@ -141,21 +142,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    //its only purpose is to show the category UI
-    function loadTaskByFilter(){ 
-        task_container.innerHTML = "";
-         if(tasks.length === 0){
-            const div = document.createElement("div");
-    
-            div.innerHTML = '<div class="text-center py-4 text-gray-500">No tasks yet. Add one above!</div>';
-            
-            task_container.appendChild(div);
-            count.innerHTML = `0 items`;
-        }else{
-            tasks.forEach((item) => renderTask(item));
-        }
-    }
-    
     function saveTask(){
         localStorage.setItem('task',JSON.stringify(tasks));  
         loadTask();
@@ -187,7 +173,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         //adding item to the task container and updating the counter
         task_container.appendChild(div);
-        count.innerHTML = `${tasks.length} items` ;
+
+        //maintain the counting of the items (if this funtion calls from a category selection it will return that categories item count which is the length of the tasksCopy array)
+        if(tasks.length == tasksCopy.length){
+            count.innerHTML = `${tasks.length} items` ;
+        }else{
+            count.innerHTML = `${tasksCopy.length} items` ; 
+        }
         
         //removing an task
         div.addEventListener('click', (e) => {
@@ -289,15 +281,26 @@ document.addEventListener("DOMContentLoaded", () => {
       menuCategoryList.insertBefore(li,addCategoryButton.parentElement);
     }
 
-
     function fliterTaskByCategory(categoryType){
         let category = categoryType.getAttribute('category')
 
-        tasks = tasks.filter(t => t.category==category);
+        task_container.innerHTML = "";
+        tasksCopy = tasks.filter(t => t.category==category);
 
-        loadTaskByFilter();
-        //reloading the tasks from the local storage
-        tasks = tasksCopy;
+        if(tasksCopy.length === 0){
+            const div = document.createElement("div");
+    
+            div.innerHTML = '<div class="text-center py-4 text-gray-500">No tasks yet. Add one above!</div>';
+            
+            task_container.appendChild(div);
+            count.innerHTML = `${tasksCopy.length} items`;
+        }else{
+            tasks.forEach((task) => {
+                if(task.category == category){
+                    renderTask(task);
+                }
+            });
+        }
     }
     
     //load categories
@@ -305,6 +308,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //loading task in the web     
     loadTask();        
 
+    //selecting category
     categoryList.addEventListener('click', (e) => {
         if(e.target.tagName !== "UL"){
             let categoryType = e.target;
@@ -320,7 +324,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     category.classList.remove("bg-blue-400");
                     category.classList.add("bg-gray-300");                    
                 });
-
                 loadTask();
             }
             else{
@@ -396,7 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const deleteBtn = e.target.parentElement;
 
         
-        if(deleteBtn.tagName.toLowerCase() === 'svg'){
+        if(e.target.closest('button')){
 
           const li = deleteBtn.closest('li');
           const categoryName = li.querySelector('span').textContent;
@@ -408,8 +411,9 @@ document.addEventListener("DOMContentLoaded", () => {
           categories = categories.filter(cat => cat != categoryName);
           saveCategories();
 
-          //reload categories
+          //reload categories and tasks
           loadCategories();
+          loadTask();
         }
         else {return}
     });
@@ -471,7 +475,7 @@ document.addEventListener("DOMContentLoaded", () => {
             closeVoiceModal();
         }
     });
-///////////// ongoing work /////////////////
+
     //voice input(recognition) work
     voiceInput.addEventListener('click', () => {
         //getting the speech recognition which is available
